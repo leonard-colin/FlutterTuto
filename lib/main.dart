@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:leadeetuto/screens/guest/auth.dart';
+import 'package:leadeetuto/screens/guest/term.dart';
 
 void main() => runApp(const App());
 
@@ -13,8 +14,8 @@ class App extends StatelessWidget {
     // ignore: prefer_const_constructors
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      home: AuthScreen(),
+      title: 'Leadee',
+      home: TermScreen(),
     );
   }
 }
