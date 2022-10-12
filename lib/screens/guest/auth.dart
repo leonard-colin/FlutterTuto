@@ -10,6 +10,11 @@ class AuthScreen extends StatefulWidget {
 }
 
 class _AuthScreenState extends State<AuthScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final RegExp emailRegex = RegExp(r"[a-z0-9\._-]@[a-z0-9\._-]+\.[a-z]+");
+
+  late String _email;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -56,6 +61,7 @@ class _AuthScreenState extends State<AuthScreen> {
                   height: 50.0,
                 ),
                 Form(
+                  key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -64,6 +70,11 @@ class _AuthScreenState extends State<AuthScreen> {
                         height: 10.0,
                       ),
                       TextFormField(
+                        onChanged: (value) => setState(() => _email = value),
+                        validator: (value) =>
+                            value!.isEmpty || !emailRegex.hasMatch(value)
+                                ? "Please enter valid email"
+                                : null,
                         decoration: InputDecoration(
                           hintText: "Ex: jane.doe@janedoe.com",
                           border: OutlineInputBorder(
@@ -85,7 +96,13 @@ class _AuthScreenState extends State<AuthScreen> {
                             elevation: 0,
                             backgroundColor: Theme.of(context).primaryColor,
                             foregroundColor: Colors.white),
-                        onPressed: () => print("send"),
+                        onPressed: !emailRegex.hasMatch(_email)
+                            ? null
+                            : () {
+                                if (_formKey.currentState!.validate()) {
+                                  print(_email);
+                                }
+                              },
                         child: Text(
                           "continue".toUpperCase(),
                         ),

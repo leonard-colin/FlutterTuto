@@ -16,7 +16,7 @@ class App extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Leadee',
-      home: PasswordScreen(),
+      home: AuthScreen(),
     );
   }
 }
