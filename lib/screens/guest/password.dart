@@ -10,7 +10,10 @@ class PasswordScreen extends StatefulWidget {
 }
 
 class _PasswordScreenState extends State<PasswordScreen> {
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   bool _isSecret = true;
+  String _password = "";
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +46,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
                   height: 50.0,
                 ),
                 Form(
+                  key: _formKey,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -51,6 +55,10 @@ class _PasswordScreenState extends State<PasswordScreen> {
                         height: 10.0,
                       ),
                       TextFormField(
+                        onChanged: (value) => setState(() => _password = value),
+                        validator: (value) => value!.length < 6
+                            ? "Enter a password with min 6 characters"
+                            : null,
                         obscureText: _isSecret,
                         decoration: InputDecoration(
                           suffixIcon: InkWell(
@@ -81,7 +89,13 @@ class _PasswordScreenState extends State<PasswordScreen> {
                             elevation: 0,
                             backgroundColor: Theme.of(context).primaryColor,
                             foregroundColor: Colors.white),
-                        onPressed: () => print("send"),
+                        onPressed: _password.length < 6
+                            ? null
+                            : () {
+                                if (_formKey.currentState!.validate()) {
+                                  print(_password);
+                                }
+                              },
                         child: Text(
                           "continue".toUpperCase(),
                         ),
