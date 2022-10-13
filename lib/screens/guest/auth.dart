@@ -13,7 +13,7 @@ class _AuthScreenState extends State<AuthScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   final RegExp emailRegex = RegExp(r"[a-z0-9\._-]@[a-z0-9\._-]+\.[a-z]+");
 
-  late String _email;
+  String _email = "";
 
   @override
   Widget build(BuildContext context) {
