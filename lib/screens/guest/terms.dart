@@ -4,7 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:leadeetuto/main.dart';
 
 class TermScreen extends StatefulWidget {
-  const TermScreen({super.key});
+  final Function(int) onChangedStep;
+
+  const TermScreen({
+    super.key,
+    required this.onChangedStep,
+  });
 
   @override
   State<TermScreen> createState() => _TermScreenState();
@@ -44,7 +49,7 @@ class _TermScreenState extends State<TermScreen> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             color: Colors.black,
-            onPressed: () {},
+            onPressed: () => widget.onChangedStep(0),
           ),
         ),
         body: Padding(
@@ -84,7 +89,7 @@ class _TermScreenState extends State<TermScreen> {
                     borderRadius: BorderRadius.circular(0),
                   ),
                 ),
-                onPressed: !_isTermsRead ? null : () => print("accept"),
+                onPressed: !_isTermsRead ? null : () => widget.onChangedStep(2),
                 child: Text(
                   "accept & continue".toUpperCase(),
                   style: TextStyle(

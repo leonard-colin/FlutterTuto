@@ -3,7 +3,12 @@
 import 'package:flutter/material.dart';
 
 class PasswordScreen extends StatefulWidget {
-  const PasswordScreen({super.key});
+  final Function(int) onChangedStep;
+
+  const PasswordScreen({
+    super.key,
+    required this.onChangedStep,
+  });
 
   @override
   State<PasswordScreen> createState() => _PasswordScreenState();
@@ -26,7 +31,7 @@ class _PasswordScreenState extends State<PasswordScreen> {
           leading: IconButton(
             icon: Icon(Icons.arrow_back),
             color: Colors.black,
-            onPressed: () {},
+            onPressed: () => widget.onChangedStep(0),
           ),
         ),
         body: Center(
