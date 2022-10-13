@@ -11,6 +11,22 @@ class TermScreen extends StatefulWidget {
 }
 
 class _TermScreenState extends State<TermScreen> {
+  final ScrollController _scrollController = ScrollController();
+  bool _isTermsRead = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _scrollController.addListener(() {
+      if (_scrollController.offset >=
+              _scrollController.position.maxScrollExtent &&
+          !_scrollController.position.outOfRange) {
+        setState(() => _isTermsRead = true);
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -42,6 +58,7 @@ class _TermScreenState extends State<TermScreen> {
             children: [
               Expanded(
                 child: SingleChildScrollView(
+                  controller: _scrollController,
                   physics: AlwaysScrollableScrollPhysics(),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -67,7 +84,7 @@ class _TermScreenState extends State<TermScreen> {
                     borderRadius: BorderRadius.circular(0),
                   ),
                 ),
-                onPressed: () => print("accept"),
+                onPressed: !_isTermsRead ? null : () => print("accept"),
                 child: Text(
                   "accept & continue".toUpperCase(),
                   style: TextStyle(
