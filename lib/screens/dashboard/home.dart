@@ -20,6 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Scaffold(
         body: Center(
           child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              elevation: 0,
+            ),
             onPressed: () async {
               await _userService.logout();
 
