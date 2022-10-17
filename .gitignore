@@ -216,3 +216,5 @@ fabric.properties
 *.code-workspace
 
 # End of https://www.toptal.com/developers/gitignore/api/flutter,dart,firebase,visualstudiocode,intellij+all
+
+android/app/google-services.json
