@@ -32,6 +32,13 @@ dependencies:
   flutter:
     sdk: flutter
 
+  firebase_core: ^1.24.0
+  firebase_auth: ^3.11.2
+  cloud_firestore: ^3.5.1
+  
+  # Gestion de la caméra
+  camera: ^0.10.0+3
+
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -40,10 +47,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
-  firebase_core: ^1.24.0
-  firebase_auth: ^3.11.2
-  cloud_firestore: ^3.5.1
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
