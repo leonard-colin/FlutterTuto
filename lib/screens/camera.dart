@@ -17,6 +17,7 @@ class CameraScreen extends StatefulWidget {
 class _CameraScreenState extends State<CameraScreen> {
   Future<void>? _initializeControllerFuture;
   CameraController? _controller;
+  int _selectedCameraIndex = -1;
 
   Future<void> initCamera(CameraDescription camera) async {
     _controller = CameraController(
@@ -42,7 +43,15 @@ class _CameraScreenState extends State<CameraScreen> {
   }
 
   Future<void> _cameraToggle() async {
-    await initCamera(widget.cameras[0]);
+    setState(() {
+      _selectedCameraIndex = _selectedCameraIndex > -1
+          ? _selectedCameraIndex == 0
+              ? 1
+              : 0
+          : 0;
+    });
+
+    await initCamera(widget.cameras[_selectedCameraIndex]);
   }
 
   @override
@@ -129,7 +138,36 @@ class _CameraScreenState extends State<CameraScreen> {
                           ),
                         ),
                       ),
-                    )
+                    ),
+                    Align(
+                      alignment: Alignment.bottomRight,
+                      child: Container(
+                        margin: EdgeInsets.only(
+                          bottom: 40,
+                          right: 60,
+                        ),
+                        height: 50.0,
+                        width: 50.0,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            width: 3.0,
+                            color: Colors.white,
+                          ),
+                        ),
+                        child: Material(
+                          color: Colors.transparent,
+                          child: InkWell(
+                            customBorder: CircleBorder(),
+                            onTap: _cameraToggle,
+                            child: Icon(
+                              Icons.loop,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 );
               }
