@@ -1,9 +1,12 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_declarations, prefer_const_literals_to_create_immutables
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter_storage_path/flutter_storage_path.dart';
+import 'package:leadeetuto/screens/gallery.dart';
 import 'package:path/path.dart';
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
@@ -217,16 +220,48 @@ class _CameraScreenState extends State<CameraScreen> {
                             color: Colors.white,
                           ),
                         ),
-                        child: Material(
-                          color: Colors.transparent,
-                          child: InkWell(
-                            customBorder: CircleBorder(),
-                            onTap: () => print("gallery access"),
-                            child: Icon(
+                        child: FutureBuilder(
+                          future: StoragePath.imagesPath,
+                          builder: (context, snapshot) {
+                            List<dynamic> images = [];
+
+                            Widget defaultWidget = Icon(
                               Icons.photo_size_select_actual,
                               color: Colors.white,
-                            ),
-                          ),
+                            );
+
+                            if (snapshot.connectionState ==
+                                ConnectionState.done) {
+                              images = jsonDecode(snapshot.data!);
+
+                              if (images.isNotEmpty &&
+                                  images[0]["files"].length > 0) {
+                                defaultWidget = CircleAvatar(
+                                  backgroundColor: Colors.transparent,
+                                  backgroundImage: FileImage(
+                                    File(images[0]["files"][0]),
+                                  ),
+                                );
+                              }
+                            }
+                            return Material(
+                              color: Colors.transparent,
+                              child: InkWell(
+                                customBorder: CircleBorder(),
+                                onTap: () async {
+                                  dynamic data = await Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          GalleryScreen(images: images),
+                                    ),
+                                  );
+                                  setState(() => _lastImage = data["path"]);
+                                },
+                                child: defaultWidget,
+                              ),
+                            );
+                          },
                         ),
                       ),
                     ),
